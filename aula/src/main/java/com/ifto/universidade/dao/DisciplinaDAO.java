@@ -2,6 +2,7 @@ package com.ifto.universidade.dao;
 
 import com.ifto.universidade.model.Disciplina;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
+import com.ifto.universidade.exception.EntidadeDuplicadaException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,13 @@ public class DisciplinaDAO {
                 .toList();
     }
 
-    public void cadastrarDisciplina(Disciplina disciplina) {
+    public void cadastrarDisciplina(Disciplina disciplina) throws EntidadeDuplicadaException {
+        boolean codigoJaExiste = disciplinas.stream()
+                .anyMatch(d -> d.getCodigo().equalsIgnoreCase(disciplina.getCodigo()));
+        if (codigoJaExiste) {
+            throw new EntidadeDuplicadaException(
+                    "Já existe uma disciplina com o código '" + disciplina.getCodigo() + "'.");
+        }
         disciplinas.add(disciplina);
     }
 }

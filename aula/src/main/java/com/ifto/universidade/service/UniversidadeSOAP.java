@@ -1,5 +1,6 @@
 package com.ifto.universidade.service;
 
+import com.ifto.universidade.exception.EntidadeDuplicadaException;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 import com.ifto.universidade.exception.UsuarioNaoAutorizadoException;
 import com.ifto.universidade.model.Disciplina;
@@ -51,7 +52,7 @@ public class UniversidadeSOAP {
     public void cadastrarDisciplina(
             @WebParam(name = "disciplina") Disciplina disciplina,
             @WebParam(name = "usuario", header = true) Usuario usuario)
-            throws UsuarioNaoAutorizadoException {
+            throws UsuarioNaoAutorizadoException, EntidadeDuplicadaException {
         autenticar(usuario);
         if (disciplina == null
                 || invalido(disciplina.getCodigo())
@@ -77,7 +78,7 @@ public class UniversidadeSOAP {
     public void cadastrarProfessor(
             @WebParam(name = "professor") Professor professor,
             @WebParam(name = "usuario", header = true) Usuario usuario)
-            throws UsuarioNaoAutorizadoException {
+            throws UsuarioNaoAutorizadoException, EntidadeDuplicadaException {
         autenticar(usuario);
         if (professor == null
                 || invalido(professor.getNome())

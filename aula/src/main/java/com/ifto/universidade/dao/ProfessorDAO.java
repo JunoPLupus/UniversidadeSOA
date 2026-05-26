@@ -2,6 +2,7 @@ package com.ifto.universidade.dao;
 
 import com.ifto.universidade.model.Professor;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
+import com.ifto.universidade.exception.EntidadeDuplicadaException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,13 @@ public class ProfessorDAO {
                 .toList();
     }
 
-    public void cadastrarProfessor(Professor professor) {
+    public void cadastrarProfessor(Professor professor) throws EntidadeDuplicadaException {
+        boolean matriculaJaExiste = professores.stream()
+                .anyMatch(p -> p.getMatricula().equalsIgnoreCase(professor.getMatricula()));
+        if (matriculaJaExiste) {
+            throw new EntidadeDuplicadaException(
+                    "Já existe um professor com a matrícula '" + professor.getMatricula() + "'.");
+        }
         professores.add(professor);
     }
 }
