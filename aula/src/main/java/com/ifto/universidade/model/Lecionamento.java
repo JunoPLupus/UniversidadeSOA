@@ -20,4 +20,11 @@ public class Lecionamento {
     public static Lecionamento criar(Professor professor, Disciplina disciplina, String semestre, Turno turno) {
         return new Lecionamento(professor, disciplina, semestre, turno);
     }
+
+    public boolean isSemelhante(String valor) {
+        return professor.getMatricula().equalsIgnoreCase(valor)
+                || disciplina.getCodigo().equalsIgnoreCase(valor)
+                || semestre.equalsIgnoreCase(valor)
+                || turno.name().equalsIgnoreCase(valor);
+    }
 }

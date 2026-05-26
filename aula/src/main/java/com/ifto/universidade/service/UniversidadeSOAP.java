@@ -98,6 +98,11 @@ public class UniversidadeSOAP {
         return gerarLecionamentoDAO().listarLecionamentos();
     }
 
+    @WebResult(name = "lecionamento")
+    public List<Lecionamento> listarLecionamentosFiltradoDinamico(@WebParam(name = "valor") String valor) {
+        return gerarLecionamentoDAO().listarLecionamentos(valor);
+    }
+
     public void cadastrarLecionamento(
             @WebParam(name = "matriculaProfessor") String matriculaProf,
             @WebParam(name = "codigoDisciplina") String codDisciplina,

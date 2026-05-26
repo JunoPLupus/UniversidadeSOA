@@ -36,7 +36,12 @@ public class LecionamentoDAO {
         return lecionamentos;
     }
 
-    public void cadastrarLecionamento(String matriculaProf, String codDisciplina, String semestre, String turno) {
+    public List<Lecionamento> listarLecionamentos(String valor) {
+        return lecionamentos.stream()
+                .filter(l -> l.isSemelhante(valor))
+                .toList();
+    }
+
     public void cadastrarLecionamento(String matriculaProf, String codDisciplina, String semestre, String turno) throws EntidadeNaoEncontradaException {
         Lecionamento novoLecionamento = Lecionamento.criar(
                 getProfessor(matriculaProf),
