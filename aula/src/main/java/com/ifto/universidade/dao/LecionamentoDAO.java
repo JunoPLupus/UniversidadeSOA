@@ -3,6 +3,7 @@ package com.ifto.universidade.dao;
 import com.ifto.universidade.model.Lecionamento;
 import com.ifto.universidade.model.Turno;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
+import com.ifto.universidade.util.ValidacaoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,10 @@ public class LecionamentoDAO {
     }
 
     public void cadastrarLecionamento(String matriculaProf, String codDisciplina, String semestre, String turno) throws EntidadeNaoEncontradaException {
+        if (ValidacaoUtil.invalido(matriculaProf) || ValidacaoUtil.invalido(codDisciplina)
+                || ValidacaoUtil.invalido(semestre) || ValidacaoUtil.invalido(turno)) {
+            throw new IllegalArgumentException("Todos os campos do lecionamento são obrigatórios.");
+        }
         Lecionamento novoLecionamento = Lecionamento.criar(
                 getProfessor(matriculaProf),
                 getDisciplina(codDisciplina),

@@ -3,6 +3,7 @@ package com.ifto.universidade.dao;
 import com.ifto.universidade.model.Professor;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 import com.ifto.universidade.exception.EntidadeDuplicadaException;
+import com.ifto.universidade.util.ValidacaoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,15 @@ public class ProfessorDAO {
     }
 
     public void cadastrarProfessor(Professor professor) throws EntidadeDuplicadaException {
+        if (professor == null
+                || ValidacaoUtil.invalido(professor.getNome())
+                || ValidacaoUtil.invalido(professor.getEmail())
+                || ValidacaoUtil.invalido(professor.getCpf())
+                || ValidacaoUtil.invalido(professor.getMatricula())
+                || ValidacaoUtil.invalido(professor.getEspecialidade())
+                || ValidacaoUtil.invalido(professor.getTitulacao())) {
+            throw new IllegalArgumentException("Todos os campos do professor são obrigatórios.");
+        }
         boolean matriculaJaExiste = professores.stream()
                 .anyMatch(p -> p.getMatricula().equalsIgnoreCase(professor.getMatricula()));
         if (matriculaJaExiste) {

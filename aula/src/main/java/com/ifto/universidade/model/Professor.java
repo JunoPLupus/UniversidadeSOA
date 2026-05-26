@@ -1,5 +1,6 @@
 package com.ifto.universidade.model;
 
+import com.ifto.universidade.util.ValidacaoUtil;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -23,6 +24,10 @@ public non-sealed class Professor extends Pessoa {
     }
 
     public static Professor criar(String nome, String email, String cpf, String matricula, String especialidade, String titulacao) {
+        if (ValidacaoUtil.invalido(nome) || ValidacaoUtil.invalido(email) || ValidacaoUtil.invalido(cpf)
+                || ValidacaoUtil.invalido(matricula) || ValidacaoUtil.invalido(especialidade) || ValidacaoUtil.invalido(titulacao)) {
+            throw new IllegalArgumentException("Todos os campos do professor são obrigatórios.");
+        }
         return new Professor(nome, email, cpf, matricula, especialidade, titulacao);
     }
 

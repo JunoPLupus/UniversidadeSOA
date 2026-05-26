@@ -21,18 +21,6 @@ import static com.ifto.universidade.dao.ProfessorDAO.gerarProfessorDAO;
 @WebService
 public class UniversidadeSOAP {
 
-    private void autenticar(Usuario usuario) throws UsuarioNaoAutorizadoException {
-        if (usuario == null
-                || !usuario.getLogin().equals("soa")
-                || !usuario.getSenha().equals("soa")) {
-            throw new UsuarioNaoAutorizadoException("Usuário ou senha inválidos.");
-        }
-    }
-
-    private boolean invalido(String valor) {
-        return valor == null || valor.isBlank() || valor.equals("?");
-    }
-
     //#region Disciplinas
     @WebResult(name = "disciplina")
     public List<Disciplina> listarTodasDisciplinas() {
@@ -54,12 +42,6 @@ public class UniversidadeSOAP {
             @WebParam(name = "usuario", header = true) Usuario usuario)
             throws UsuarioNaoAutorizadoException, EntidadeDuplicadaException {
         autenticar(usuario);
-        if (disciplina == null
-                || invalido(disciplina.getCodigo())
-                || invalido(disciplina.getNome())
-                || disciplina.getCargaHoraria() <= 0) {
-            throw new IllegalArgumentException("Todos os campos da disciplina são obrigatórios.");
-        }
         gerarDisciplinaDAO().cadastrarDisciplina(disciplina);
     }
     //#endregion
@@ -80,15 +62,6 @@ public class UniversidadeSOAP {
             @WebParam(name = "usuario", header = true) Usuario usuario)
             throws UsuarioNaoAutorizadoException, EntidadeDuplicadaException {
         autenticar(usuario);
-        if (professor == null
-                || invalido(professor.getNome())
-                || invalido(professor.getEmail())
-                || invalido(professor.getCpf())
-                || invalido(professor.getMatricula())
-                || invalido(professor.getEspecialidade())
-                || invalido(professor.getTitulacao())) {
-            throw new IllegalArgumentException("Todos os campos do professor são obrigatórios.");
-        }
         gerarProfessorDAO().cadastrarProfessor(professor);
     }
     //#endregion
@@ -112,11 +85,17 @@ public class UniversidadeSOAP {
             @WebParam(name = "usuario", header = true) Usuario usuario)
             throws UsuarioNaoAutorizadoException, EntidadeNaoEncontradaException {
         autenticar(usuario);
-        if (invalido(matriculaProf) || invalido(codDisciplina)
-                || invalido(semestre) || invalido(turno)) {
-            throw new IllegalArgumentException("Todos os campos do lecionamento são obrigatórios.");
-        }
         gerarLecionamentoDAO().cadastrarLecionamento(matriculaProf, codDisciplina, semestre, turno);
+    }
+    //#endregion
+
+    //#region Métodos auxiliares
+    private void autenticar(Usuario usuario) throws UsuarioNaoAutorizadoException {
+        if (usuario == null
+                || !usuario.getLogin().equals("soa")
+                || !usuario.getSenha().equals("soa")) {
+            throw new UsuarioNaoAutorizadoException("Usuário ou senha inválidos.");
+        }
     }
     //#endregion
 

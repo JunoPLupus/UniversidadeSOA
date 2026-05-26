@@ -3,6 +3,7 @@ package com.ifto.universidade.dao;
 import com.ifto.universidade.model.Disciplina;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 import com.ifto.universidade.exception.EntidadeDuplicadaException;
+import com.ifto.universidade.util.ValidacaoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,12 @@ public class DisciplinaDAO {
     }
 
     public void cadastrarDisciplina(Disciplina disciplina) throws EntidadeDuplicadaException {
+        if (disciplina == null
+                || ValidacaoUtil.invalido(disciplina.getCodigo())
+                || ValidacaoUtil.invalido(disciplina.getNome())
+                || disciplina.getCargaHoraria() <= 0) {
+            throw new IllegalArgumentException("Todos os campos da disciplina são obrigatórios.");
+        }
         boolean codigoJaExiste = disciplinas.stream()
                 .anyMatch(d -> d.getCodigo().equalsIgnoreCase(disciplina.getCodigo()));
         if (codigoJaExiste) {
