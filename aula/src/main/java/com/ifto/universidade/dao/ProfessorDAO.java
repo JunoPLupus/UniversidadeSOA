@@ -1,6 +1,7 @@
 package com.ifto.universidade.dao;
 
 import com.ifto.universidade.model.Professor;
+import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,12 @@ public class ProfessorDAO {
         return new ProfessorDAO();
     }
 
-    public static Professor getProfessor(String matricula) {
+    public static Professor getProfessor(String matricula) throws EntidadeNaoEncontradaException {
         return professores.stream()
                 .filter(p -> p.getMatricula().equals(matricula))
-                .findFirst().orElseThrow();
+                .findFirst()
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        "Professor com matrícula '" + matricula + "' não encontrado."));
     }
 
     public List<Professor> listarProfessores() {

@@ -1,6 +1,7 @@
 package com.ifto.universidade.dao;
 
 import com.ifto.universidade.model.Disciplina;
+import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,12 @@ public class DisciplinaDAO {
         return new DisciplinaDAO();
     }
 
-    public static Disciplina getDisciplina(String codigo) {
+    public static Disciplina getDisciplina(String codigo) throws EntidadeNaoEncontradaException {
         return disciplinas.stream()
                 .filter(d -> d.getCodigo().equals(codigo))
-                .findFirst().orElseThrow();
+                .findFirst()
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        "Disciplina com código '" + codigo + "' não encontrada."));
     }
 
     public List<Disciplina> listarDisciplinas() {
