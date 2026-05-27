@@ -18,12 +18,36 @@ public class LecionamentoDAO {
     static {
         lecionamentos = new ArrayList<>();
         try {
-            lecionamentos.add(Lecionamento.criar(getProfessor("INF002"), getDisciplina("CC001"), "2025.1", MANHA));
-            lecionamentos.add(Lecionamento.criar(getProfessor("INF003"), getDisciplina("CC001"), "2025.2", NOITE));
-            lecionamentos.add(Lecionamento.criar(getProfessor("INF002"), getDisciplina("CC002"), "2025.2", MANHA));
-            lecionamentos.add(Lecionamento.criar(getProfessor("INF003"), getDisciplina("CC002"), "2025.2", NOITE));
-            lecionamentos.add(Lecionamento.criar(getProfessor("MAT001"), getDisciplina("MAT001"), "2026.1", MANHA));
-            lecionamentos.add(Lecionamento.criar(getProfessor("MAT001"), getDisciplina("MAT001"), "2026.1", NOITE));
+            lecionamentos.add(Lecionamento.criar(
+                    getProfessor("INF002"),
+                    getDisciplina("CC001"),
+                    "2025.1",
+                    MANHA));
+            lecionamentos.add(Lecionamento.criar(
+                    getProfessor("INF003"),
+                    getDisciplina("CC001"),
+                    "2025.2",
+                    NOITE));
+            lecionamentos.add(Lecionamento.criar(
+                    getProfessor("INF002"),
+                    getDisciplina("CC002"),
+                    "2025.2",
+                    MANHA));
+            lecionamentos.add(Lecionamento.criar(
+                    getProfessor("INF003"),
+                    getDisciplina("CC002"),
+                    "2025.2",
+                    NOITE));
+            lecionamentos.add(Lecionamento.criar(
+                    getProfessor("MAT001"),
+                    getDisciplina("MAT001"),
+                    "2026.1",
+                    MANHA));
+            lecionamentos.add(Lecionamento.criar(
+                    getProfessor("MAT001"),
+                    getDisciplina("MAT001"),
+                    "2026.1",
+                    NOITE));
         } catch (EntidadeNaoEncontradaException e) {
             throw new RuntimeException("Erro ao inicializar lecionamentos: " + e.getMessage(), e);
         }

@@ -28,13 +28,13 @@ public class UniversidadeSOAP {
     }
 
     @WebResult(name = "disciplina")
-    public List<Disciplina> listarDisciplinasPorNome(@WebParam(name = "valor") String valor) {
-        return gerarDisciplinaDAO().listarDisciplinas(valor);
+    public List<Disciplina> listarDisciplinasPorNome(@WebParam(name = "nome") String nome) {
+        return gerarDisciplinaDAO().listarDisciplinas(nome);
     }
 
     @WebResult(name = "disciplina")
-    public List<Disciplina> listarDisciplinasPorCH(@WebParam(name = "cargaHoraria") int valor) {
-        return gerarDisciplinaDAO().listarDisciplinas(valor);
+    public List<Disciplina> listarDisciplinasPorCH(@WebParam(name = "cargaHoraria") int cargaHoraria) {
+        return gerarDisciplinaDAO().listarDisciplinas(cargaHoraria);
     }
 
     public void cadastrarDisciplina(
