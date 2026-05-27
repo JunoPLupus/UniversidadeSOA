@@ -3,6 +3,7 @@ package com.ifto.universidade.model;
 import com.ifto.universidade.util.ValidacaoUtil;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
 
@@ -13,10 +14,15 @@ import lombok.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="disciplina")
 public class Disciplina {
-    private String codigo;
-    private String nome;
-    private int cargaHoraria;
 
+    @XmlElement(required = true)
+    private String codigo;
+
+    @XmlElement(required = true)
+    private String nome;
+
+    @XmlElement(required = true)
+    private int cargaHoraria;
 
     public static Disciplina criar(String codigo, String nome, int cargaHoraria) {
         if (ValidacaoUtil.invalido(codigo) || ValidacaoUtil.invalido(nome) || cargaHoraria <= 0) {

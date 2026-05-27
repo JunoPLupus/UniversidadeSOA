@@ -2,6 +2,7 @@ package com.ifto.universidade.model;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
 
@@ -12,9 +13,17 @@ import lombok.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="lecionamento")
 public class Lecionamento {
+
+    @XmlElement(required = true)
     private Professor professor;
+
+    @XmlElement(required = true)
     private Disciplina disciplina;
+
+    @XmlElement(required = true)
     private String semestre;
+
+    @XmlElement(required = true)
     private Turno turno;
 
     public static Lecionamento criar(Professor professor, Disciplina disciplina, String semestre, Turno turno) {

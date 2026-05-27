@@ -3,6 +3,7 @@ package com.ifto.universidade.model;
 import com.ifto.universidade.util.ValidacaoUtil;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
 
@@ -12,8 +13,14 @@ import lombok.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="professor")
 public non-sealed class Professor extends Pessoa {
+
+    @XmlElement(required = true)
     private String matricula;
+
+    @XmlElement(required = true)
     private String especialidade;
+
+    @XmlElement(required = true)
     private String titulacao;
 
     private Professor(String nome, String email, String cpf, String matricula, String especialidade, String titulacao) {
