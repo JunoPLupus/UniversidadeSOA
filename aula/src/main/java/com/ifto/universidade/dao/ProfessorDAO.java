@@ -1,9 +1,8 @@
 package com.ifto.universidade.dao;
 
+import com.ifto.universidade.exception.CamposObrigatoriosException;
 import com.ifto.universidade.model.Professor;
-import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 import com.ifto.universidade.exception.EntidadeDuplicadaException;
-import com.ifto.universidade.util.ValidacaoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +46,6 @@ public class ProfessorDAO {
         return new ProfessorDAO();
     }
 
-    public static Professor getProfessor(String matricula) throws EntidadeNaoEncontradaException {
-        return professores.stream()
-                .filter(p -> p.getMatricula().equals(matricula))
-                .findFirst()
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        "Professor com matrícula '" + matricula + "' não encontrado."));
-    }
-
     public List<Professor> listarProfessores() {
         return professores;
     }
@@ -66,15 +57,8 @@ public class ProfessorDAO {
     }
 
     public void cadastrarProfessor(Professor professor) throws EntidadeDuplicadaException {
-        if (professor == null
-                || ValidacaoUtil.invalido(professor.getNome())
-                || ValidacaoUtil.invalido(professor.getEmail())
-                || ValidacaoUtil.invalido(professor.getCpf())
-                || ValidacaoUtil.invalido(professor.getMatricula())
-                || ValidacaoUtil.invalido(professor.getEspecialidade())
-                || ValidacaoUtil.invalido(professor.getTitulacao())) {
-            throw new IllegalArgumentException("Todos os campos do professor são obrigatórios.");
-        }
+        if (professor == null || professor.isInvalido()) throw new CamposObrigatoriosException("professor");
+
         boolean matriculaJaExiste = professores.stream()
                 .anyMatch(p -> p.getMatricula().equalsIgnoreCase(professor.getMatricula()));
         if (matriculaJaExiste) {

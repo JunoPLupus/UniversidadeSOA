@@ -1,11 +1,12 @@
 package com.ifto.universidade.model;
 
-import com.ifto.universidade.util.ValidacaoUtil;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
+
+import static com.ifto.universidade.util.ValidacaoUtil.isStringInvalida;
 
 @Getter
 @Setter
@@ -25,9 +26,6 @@ public class Disciplina {
     private int cargaHoraria;
 
     public static Disciplina criar(String codigo, String nome, int cargaHoraria) {
-        if (ValidacaoUtil.invalido(codigo) || ValidacaoUtil.invalido(nome) || cargaHoraria <= 0) {
-            throw new IllegalArgumentException("Todos os campos da disciplina são obrigatórios.");
-        }
         return new Disciplina(codigo, nome, cargaHoraria);
     }
 
@@ -37,5 +35,11 @@ public class Disciplina {
 
     public boolean isEqualCH(int valor) {
         return this.cargaHoraria ==  valor;
+    }
+
+    public boolean isInvalido() {
+        return isStringInvalida(this.codigo)
+                || isStringInvalida(this.nome)
+                || this.cargaHoraria <= 0;
     }
 }

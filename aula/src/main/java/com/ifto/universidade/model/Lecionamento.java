@@ -1,5 +1,6 @@
 package com.ifto.universidade.model;
 
+import com.ifto.universidade.exception.CamposObrigatoriosException;
 import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -9,6 +10,8 @@ import lombok.*;
 
 import static com.ifto.universidade.util.GetObjUtil.getDisciplinaObj;
 import static com.ifto.universidade.util.GetObjUtil.getProfessorObj;
+import static com.ifto.universidade.util.ValidacaoUtil.isStringInvalida;
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -36,6 +39,15 @@ public class Lecionamento {
                 semestre,
                 turno);
     }
+
+    public static Lecionamento criar(String matriculaProf, String codDisciplina, String semestre, String turno) throws EntidadeNaoEncontradaException {
+        if (isInvalido(matriculaProf, codDisciplina, semestre, turno)) throw new CamposObrigatoriosException("lecionamento");
+
+        return new Lecionamento(
+                getProfessorObj(matriculaProf),
+                getDisciplinaObj(codDisciplina),
+                semestre,
+                Turno.fromString(turno));
     }
 
     public boolean isSemelhante(String valor) {
@@ -43,5 +55,12 @@ public class Lecionamento {
                 || disciplina.getCodigo().equalsIgnoreCase(valor)
                 || semestre.equalsIgnoreCase(valor)
                 || turno.name().equalsIgnoreCase(valor);
+    }
+
+    private static boolean isInvalido(String matriculaProf, String codDisciplina, String semestre, String turno) {
+        return isStringInvalida(matriculaProf)
+                || isStringInvalida(codDisciplina)
+                || isStringInvalida(semestre)
+                || isStringInvalida(turno);
     }
 }

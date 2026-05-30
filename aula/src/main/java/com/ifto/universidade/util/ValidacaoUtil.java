@@ -1,9 +1,11 @@
 package com.ifto.universidade.util;
 
-public class ValidacaoUtil {
-    private ValidacaoUtil() {}
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-    public static boolean invalido(String valor) {
-        return valor == null || valor.isBlank() || valor.equals("?");
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ValidacaoUtil {
+    public static boolean isStringInvalida(String valor) {
+        return valor == null || valor.isBlank() || valor.trim().equals("?");
     }
 }

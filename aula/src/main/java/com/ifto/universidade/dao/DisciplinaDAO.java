@@ -1,9 +1,8 @@
 package com.ifto.universidade.dao;
 
+import com.ifto.universidade.exception.CamposObrigatoriosException;
 import com.ifto.universidade.model.Disciplina;
-import com.ifto.universidade.exception.EntidadeNaoEncontradaException;
 import com.ifto.universidade.exception.EntidadeDuplicadaException;
-import com.ifto.universidade.util.ValidacaoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +36,6 @@ public class DisciplinaDAO {
         return new DisciplinaDAO();
     }
 
-    public static Disciplina getDisciplina(String codigo) throws EntidadeNaoEncontradaException {
-        return disciplinas.stream()
-                .filter(d -> d.getCodigo().equals(codigo))
-                .findFirst()
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        "Disciplina com código '" + codigo + "' não encontrada."));
-    }
-
     public List<Disciplina> listarDisciplinas() {
         return disciplinas;
     }
@@ -62,12 +53,8 @@ public class DisciplinaDAO {
     }
 
     public void cadastrarDisciplina(Disciplina disciplina) throws EntidadeDuplicadaException {
-        if (disciplina == null
-                || ValidacaoUtil.invalido(disciplina.getCodigo())
-                || ValidacaoUtil.invalido(disciplina.getNome())
-                || disciplina.getCargaHoraria() <= 0) {
-            throw new IllegalArgumentException("Todos os campos da disciplina são obrigatórios.");
-        }
+        if (disciplina == null || disciplina.isInvalido()) throw new CamposObrigatoriosException("disciplina");
+
         boolean codigoJaExiste = disciplinas.stream()
                 .anyMatch(d -> d.getCodigo().equalsIgnoreCase(disciplina.getCodigo()));
         if (codigoJaExiste) {

@@ -1,11 +1,12 @@
 package com.ifto.universidade.model;
 
-import com.ifto.universidade.util.ValidacaoUtil;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.*;
+
+import static com.ifto.universidade.util.ValidacaoUtil.isStringInvalida;
 
 @Getter
 @Setter
@@ -31,18 +32,26 @@ public non-sealed class Professor extends Pessoa {
     }
 
     public static Professor criar(String nome, String email, String cpf, String matricula, String especialidade, String titulacao) {
-        if (ValidacaoUtil.invalido(nome) || ValidacaoUtil.invalido(email) || ValidacaoUtil.invalido(cpf)
-                || ValidacaoUtil.invalido(matricula) || ValidacaoUtil.invalido(especialidade) || ValidacaoUtil.invalido(titulacao)) {
-            throw new IllegalArgumentException("Todos os campos do professor são obrigatórios.");
-        }
         return new Professor(nome, email, cpf, matricula, especialidade, titulacao);
     }
 
+    @Override
     public boolean isSemelhante(String valor) {
         return this.getNome().contains(valor)
-                || this.getMatricula().contains(valor)
+                || this.getEmail().contains(valor)
+                || this.getCpf().contains(valor)
+                || this.matricula.contains(valor)
                 || this.especialidade.contains(valor)
-                || this.titulacao.contains(valor)
-                || this.matricula.contains(valor);
+                || this.titulacao.contains(valor);
+    }
+
+    @Override
+    public boolean isInvalido() {
+        return isStringInvalida(this.getNome())
+                || isStringInvalida(this.getEmail())
+                || isStringInvalida(this.getCpf())
+                || isStringInvalida(this.matricula)
+                || isStringInvalida(this.especialidade)
+                || isStringInvalida(this.titulacao);
     }
 }

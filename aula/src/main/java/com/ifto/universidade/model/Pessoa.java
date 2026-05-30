@@ -24,4 +24,6 @@ public abstract sealed class Pessoa permits Professor {
     private String cpf;
 
     abstract boolean isSemelhante(String valor);
+
+    abstract boolean isInvalido();
 }
